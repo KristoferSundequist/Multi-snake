@@ -17,12 +17,10 @@ var nextID = 0;
 var idmapping = [];
 var food = [];
 
-function create_food(){
-    var max = 2000;
-    var min = 0;
-    var x = Math.floor(Math.random()*(max-min+1)+min);
-    var y = Math.floor(Math.random()*(max-min+1)+min);
-    food.push([x,y,4])
+function create_food(minx,miny,maxx,maxy,size){
+    var x = Math.floor(Math.random()*(maxx-minx+1)+minx);
+    var y = Math.floor(Math.random()*(maxy-miny+1)+miny);
+    food.push([x,y,size])
 }
 
 function snake(_size, _x, _y, _length){
@@ -85,6 +83,18 @@ function intersect_snakes(s){
     return false;
 }
 
+function spawnFoodOnDeadSnake(dead_snake_i){
+    var dead_snake = snakes[dead_snake_i];
+    var cur_circle = dead_snake.circles[0]
+    
+    for(var c = 0; c < dead_snake.circles.length; c++){
+        cur_circle = dead_snake.circles[c];
+        for(var f = 0; f < dead_snake.size/4; f++){
+            create_food(cur_circle[0]-dead_snake.size, cur_circle[1]-dead_snake.size, cur_circle[0]+dead_snake.size, cur_circle[1]+dead_snake.size, dead_snake.size/3);
+        }
+    }
+}
+
 function check_all_intersect(){
     for(var i = 0; i < snakes.length; i++){
         if(snakes[i]){
@@ -99,6 +109,7 @@ function check_all_intersect(){
             
             //die if collide with snake
             if(intersect_snakes(i)){
+                spawnFoodOnDeadSnake(i);
                 snakes[i] = null;
             }
         }
@@ -154,7 +165,7 @@ function game(){
         console.log("loop: " + counter);
         update_snakes();
         check_all_intersect();
-        create_food();
+        create_food(0,0,2000,2000,4);
         
         
         //send new state
