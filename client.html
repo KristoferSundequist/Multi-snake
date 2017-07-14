@@ -100,12 +100,12 @@
       
       //send "go fast" to server
       canvas.addEventListener('mousedown', function(e) {
-        iosocket.emit('speed', 20);
+        iosocket.emit('speed', 8);
       }, false);
       
       //send "stop go fast" to server
       canvas.addEventListener('mouseup', function(e) {
-        iosocket.emit('speed', 10);
+        iosocket.emit('speed', 5);
       }, false);
       
 </script>
