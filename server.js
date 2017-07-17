@@ -60,13 +60,13 @@ function game() {
         console.log("loop: " + counter);
         update_snakes();
         check_all_intersect();
-        create_food(0, 0, 2000, 2000, 4);
+        create_food(0, 0, 1000, 1000, 4);
 
 
         //send new state
         io.sockets.emit('state', [snakes, food]);
     }
-    var fps = 10;
+    var fps = 20;
     setInterval(loop, 1000 / fps);
     
     /////////

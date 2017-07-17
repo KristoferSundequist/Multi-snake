@@ -26,6 +26,27 @@
           context.stroke();
       }
 
+      function drawCircles(xs,ys,ss){
+        const pi2 = Math.PI * 2;
+        var x = 0;
+        var y = 0;
+        
+        context.fillStyle = 'green';
+        context.beginPath();
+
+        for( var i=0; i < xs.length; i++ ){
+            x = xs[i];
+            y = ys[i];
+
+            context.moveTo( x, y ); // This was the line you were looking for
+            context.arc( x, y, ss[i], 0, pi2,false);
+        }
+
+        // Finally, draw outside loop
+        context.stroke();
+        context.fill();
+      }
+      
       var myid = 0;
       var iosocket = io.connect();
       
@@ -43,6 +64,9 @@
             var border_right = centerX+canvas_width_center*zoom;
             var border_top = centerY-canvas_height_center*zoom;
             var border_bottom = centerY+canvas_height_center*zoom;
+            var xs = []
+            var ys = []
+            var ss = []
             
             //render snakes
             for(var s = 0; s < snakes.length; s++){
@@ -51,7 +75,10 @@
                     for(var i = 0; i < snake.circles.length; i++){
                         dX = centerX - snake.circles[i][0];
                         dY = centerY - snake.circles[i][1];
-                        drawcircle(canvas_width_center + (1/zoom)*dX, canvas_height_center + (1/zoom)*dY, (1/zoom)*snake.size);
+                        //drawcircle(canvas_width_center + (1/zoom)*dX, canvas_height_center + (1/zoom)*dY, (1/zoom)*snake.size);
+                        xs.push(canvas_width_center + (1/zoom)*dX);
+                        ys.push(canvas_height_center + (1/zoom)*dY);
+                        ss.push((1/zoom)*snake.size);
                     }
                 }
             }
@@ -62,9 +89,14 @@
                 if(food[f][0] > border_left && food[f][0] < border_right && food[f][1] > border_top && food[f][1] < border_bottom){
                     dX = centerX - food[f][0];
                     dY = centerY - food[f][1];
-                    drawcircle(canvas_width_center + (1/zoom)*dX, canvas_height_center + (1/zoom)*dY, (1/zoom)*food[f][2]);
+                    //drawcircle(canvas_width_center + (1/zoom)*dX, canvas_height_center + (1/zoom)*dY, (1/zoom)*food[f][2]);
+                    xs.push(canvas_width_center + (1/zoom)*dX);
+                    ys.push(canvas_height_center + (1/zoom)*dY);
+                    ss.push((1/zoom)*food[f][2]);
                 }
             }
+            
+            drawCircles(xs,ys,ss);
         }
 
        //get input from server
