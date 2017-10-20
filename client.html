@@ -38,11 +38,10 @@
             x = xs[i];
             y = ys[i];
 
-            context.moveTo( x, y ); // This was the line you were looking for
+            context.moveTo( x, y );
             context.arc( x, y, ss[i], 0, pi2,false);
         }
-
-        // Finally, draw outside loop
+            
         context.stroke();
         context.fill();
       }
