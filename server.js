@@ -69,10 +69,6 @@ function game() {
     var fps = 20;
     setInterval(loop, 1000 / fps);
     
-    /////////
-    //WHERE//
-    /////////
-    
     function update_snakes() {
         for (var i = 0; i < snakes.length; i++) {
             if (snakes[i]) {
@@ -102,17 +98,8 @@ function check_all_intersect() {
         }
     }
     
-    /////////
-    //WHERE//
-    /////////
-    
     function intersect(ax, ay, as, bx, by, bs) {
-        //thisSnake == a
-        //snakes[i] == b
-        if (as + bs > Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2))) {
-            return true;
-        }
-        return false;
+        return (as + bs > Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2)));
     }
     
     function check_intersect_food(s) {
