@@ -2,6 +2,7 @@ var fs = require('fs'),
     http = require('http'),
     io = require('socket.io')(server);
 
+// Setup server to serve client.html
 var server = http.createServer(
     function(req, res) {
         res.writeHead(200, {
@@ -15,13 +16,19 @@ var server = http.createServer(
     }
 );
 
+/////////////
+// Globals //
+/////////////
 
+// ID of next client
 var nextID = 0;
+// Mapping between socket id and nextID
 var idmapping = [];
 
 //////////
 // Food //
 //////////
+
 var food = [];
 function create_food(minx, miny, maxx, maxy, size) {
     var x = Math.floor(Math.random() * (maxx - minx + 1) + minx);
@@ -29,9 +36,10 @@ function create_food(minx, miny, maxx, maxy, size) {
     food.push([x, y, size])
 }
 
-/////////
-//Snake//
-/////////
+///////////
+// Snake //
+///////////
+
 var snakes = [];
 function snake(_size, _x, _y, _length) {
     this.size = _size;
@@ -51,6 +59,11 @@ function snake(_size, _x, _y, _length) {
         this.circles.push([this.headX, this.headY]);
     };
 }
+
+
+//////////
+// Game //
+//////////
 
 function game() {
     var counter = 0;
@@ -78,6 +91,7 @@ function game() {
     }
 }
 
+// helper function to game that handles all intersects
 function check_all_intersect() {
     for (var i = 0; i < snakes.length; i++) {
         if (snakes[i]) {
@@ -149,7 +163,7 @@ function check_all_intersect() {
 }
 
 ////////////////////
-// NETWORK EVENTS //
+// Network events //
 ////////////////////
 
 var g = false;
